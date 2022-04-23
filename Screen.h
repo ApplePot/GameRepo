@@ -14,12 +14,12 @@ void printTitleScreen(int &base, int &base_item) {
 	system("pause");
 	//this clears the console output
 	system("cls");
-	cout<<"How hard do you like your game? (Enter 0 for ez, 1 for normal)"
+	cout << "How hard do you like your game? (Enter 0 for ez, 1 for normal)";
 
 	cin >> opt;
 	if (opt == 0) {
 
-		//increase occurance of random item drops, decrease base_item
+		//increase occurance of random item drops, decrease base_item, default is 20
 		base_item = 10;
 
 		//decrease chance of random events, increase base
@@ -43,9 +43,9 @@ void printEndScreen(Player p, int days) {
 	}
 	//end because of stats
 	else {
-		cout << "Would you like to keep the last auto save? (y/n)\n";
+		cout << "Would you like to save the current data? (y/n)\n";
 		cin >> opt;
-		SaveToFile(opt);
+		SaveToFile(p, opt);
 		}
 	}
 }

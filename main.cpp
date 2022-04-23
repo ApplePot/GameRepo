@@ -1,12 +1,12 @@
 #include <iostream>
-#include <ifstream>
+#include <fstream>
 #include <vector>
 #include <cstdlib>
 #include <ctime>
 #include "Screen.h"
 #include "player.h"
 #include "Equipments.h"
-#inlcude "calGPA.h"
+#include "calGPA.h"
 #include "save_load.h"
 
 //to implement system function
@@ -83,7 +83,8 @@ int main() {
 	int days = 0;
 
 	//the entire game runs inside this while loop
-	//auto save every 10 turns
+	//auto save every 3 turns
+	//the game lasts 10 days, 30 turns
 	while (!endGame) {
 
 		//end the game
@@ -112,7 +113,7 @@ int main() {
 	}
 
 	
-
+	delete[] marks;
 
 	return 0;
 }

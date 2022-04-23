@@ -1,4 +1,5 @@
 #include "equipments.h"
+#include "events.h"
 
 struct Player {
 
@@ -8,7 +9,34 @@ struct Player {
 	int equipNumType;
 	int slots[5];
 
-};
+	bool fullInventory() {
+		for (int i = 0; i < 5; i++) {
+			if (slots[i] == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void add_item() {
+
+		if (fullInventory()) {
+			return;
+		}
+		else {
+			int i = 0;
+			while (i < 5) {
+				if (p.slots[i] == 0) {
+					p.slots[i] = randomInt();
+					break;
+				}
+				i++;
+			}
+		}
+	}
+			
+}; 
+
 
 //check player stats and take actions
 void checkStats(Player p, bool &endGame) {
@@ -19,7 +47,7 @@ void checkStats(Player p, bool &endGame) {
 	}
 	else if (p.sanity < 50) {
 		if (p.sanity <= 0) {
-			cout << "You have gone insane and committed suicide" << endl;
+			cout << "You have gone insane" << endl;
 			endGame = true;
 			return;
 		}
