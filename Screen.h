@@ -41,7 +41,7 @@ void printEndScreen(Player p, int days) {
 		system("cls");
 		exit(1);
 	}
-	//end because of stats
+	//end because of negative or zero stats
 	else {
 		cout << "Would you like to save the current data? (y/n)\n";
 		cin >> opt;
