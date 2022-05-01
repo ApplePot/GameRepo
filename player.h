@@ -12,15 +12,16 @@ struct Player {
 	bool fullInventory() {
 		for (int i = 0; i < 5; i++) {
 			if (slots[i] == 0) {
-				return true;
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	void add_item() {
 
 		if (fullInventory()) {
+			cout<<"Your inventory is full.\n";
 			return;
 		}
 		else {
