@@ -41,6 +41,7 @@ void add_mark(int* &marks, int mark, int &size, int &iter) {
 		size *= 2;
 		delete[]marks;
 		marks = temp;
+		delete[] temp;
 	}
 	//adding a mark element to the array
 	else {
