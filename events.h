@@ -40,6 +40,14 @@ int randomInt() {
 	return rand() % 6 + 1;
 }
 
+//check if the given number is a duplicate in slots array
+bool numDup(int id) {
+	for (int i=0;i<5;i++) {
+		if (player.slots[i] == id) {
+			return true;
+		}
+	return false;
+}
 //implement functions that presents different scenarios to the player
 
 
