@@ -51,6 +51,42 @@ void add_mark(int* &marks, int mark, int &size, int &iter) {
 
 }
 
+//call this function whenever the player want to view inventory
+void viewInventory() {
+	//get the number of items that the player has
+	int counter = 0;
+	for (int i=0;i<5;i++) {
+		if (p.slots[i] == 0) {
+			counter++;
+		}
+	}
+	
+	if (counter > 0) {
+		cout<<"You currently have "<<counter<<" item(s)."<<endl;
+		
+		//print out all non-empty slots
+		int i=0;
+		while (p.slots[i] != 0) {
+			if (i == 5) {
+				break;
+			}
+			else {
+				int id = p.slots[i];
+				cout<<"===================================="<<endl;
+				cout<<"Item Name: "<<equiplist[id -1].name<<endl;
+				cout<<"Item description: "<<equiplist[id -1].description<<endl;
+				cout<<"Item health bonus: "<<equiplist[id -1].health_mod<<endl;
+				cout<<"Item sanity bonus: "<<equiplist[id -1].sanity_mod<<endl;
+				cout<<"Item hunger bonus: "<<equiplist[id -1].hunger_mod<<endl;
+				cout<<"===================================="<<endl;
+			}
+			i++;
+		}
+	}
+	else {
+		cout<<"Your inventory is empty.\n";
+}
+			
 
 int main() {
 
@@ -89,7 +125,7 @@ int main() {
 	//the game lasts 10 days, 30 turns
 	while (!endGame) {
 
-		//end the game
+		//end the game and show the player his/her gpa
 		if (days == 10) {
 			printEndScreen(p, 10);
 		}
@@ -100,21 +136,41 @@ int main() {
 				days++;
 			}
 		}
+		
+		//allows the player to view their inventory items
+		
+		system("pause");
+		system("cls");
+		//allows the player to save their current stats and equipments
+		
+		
+		//presents activity 1
+		
 
+		//presents activity 2
+		
+		
+		//presents activity 3
+		
+		
+		//presents activity 4
+		
+		
+		//presents quiz, depending on chance
+	
 
-
-
-
-
-
-
-
-
-
+		//deduct 25 hunger points after every day
+		if (turn %3 == 0) {
+			p.hunger-=25;
+		}
+		
+		//check player stats
+		checkStats(p, endGame);
+		
 		turns++;
 	}
 
-	
+	//free up memory after the program is ended
 	delete[] marks;
 
 	return 0;
