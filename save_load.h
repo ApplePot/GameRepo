@@ -6,9 +6,8 @@
 //the first line is player health
 //the second line is player sanity
 //the third line is player hunger
-//the forth line contains a series of numbers
-// the fifth line contain the number of occupied equipment slots (max 3)
-// the sixth line is a series of number that corresponds to the equipments that the player has (max 5)
+// the forth line contains the number of unique equipment slots (max 3)
+// the fifth line is a series of number that corresponds to the equipments that the player has (max 5)
 //e.g. initially
 //250
 //250
