@@ -56,11 +56,12 @@ int main() {
 	bool endGame = false;
 
 	//keep track of the size of dynamic array
-	int size = 5;
-	int iter = 0;
+	int marks_size = 5;
+	int numOfQuiz = 0;
 
 	//variable chance of occurance of random events
 	//default is 20, 25 in ez mode
+	//the integer variable is the divisor, so a larger value represents a lower chance, vice versa
 	int base = 20;
 
 	//variable chance of item drops
