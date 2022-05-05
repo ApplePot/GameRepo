@@ -115,7 +115,7 @@ int main() {
 	loadFromFile(p);
 
 	//display title screen
-	printTitleScreen(base, base_item);
+	printTitleScreen(opt, base, base_item);
 
 	//save the number of turns
 	int turns = 1;
