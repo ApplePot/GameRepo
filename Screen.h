@@ -4,9 +4,8 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-void printTitleScreen(int &base, int &base_item) {
+void printTitleScreen(int &opt, int &base, int &base_item) {
 
-	int opt;
 	cout << "====================================\n\n"; //there are 36 '='s
 	cout << "\tStudent simulator 2022\t\t" << endl;
 	cout << "====================================\n" << endl;
@@ -26,6 +25,7 @@ void printTitleScreen(int &base, int &base_item) {
 		base = 25;
 	}
 	system("cls");
+	return;
 	
 }
 
