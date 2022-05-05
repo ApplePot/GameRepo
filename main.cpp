@@ -117,63 +117,61 @@ int main() {
 	//display title screen
 	printTitleScreen(opt, base, base_item);
 
-	//save the number of turns
-	int turns = 1;
-
-	//save the number of days
+	//stores the number of days
 	int days = 0;
 
 	//the entire game runs inside this while loop
 	//auto save every 3 turns
 	//the game lasts 10 days, 30 turns
 	while (!endGame) {
-
-		//end the game and show the player his/her gpa
-		if (days == 10) {
-			printEndScreen(p, 10);
-		}
-
-		//updates days every 3 turns
-		else {
-			if (turns % 3 == 0) {
-				days++;
-			}
-		}
 		
 		//allows the player to view their inventory items
+		char view;
+		cout<<"Do you want to view your inventory (y/n)?\n";
+		cin>>view;
+		if (view == 'y') {
+			viewInventory();
+			system("pause");
+			system("cls");	
+		}
 		
-		system("pause");
-		system("cls");
 		//allows the player to save their current stats and equipments
+		char save;
+		cout<<"Do you want to save your progress (y/n)?\n";
+		cin>>save;
+		if (save == 'y') {
+			saveToFile(p, save);
+		}
 		
+		//presents question
 		
-		//presents activity 1
-		
-
-		//presents activity 2
-		
-		
-		//presents activity 3
-		
-		
-		//presents activity 4
 		
 		
 		//presents quiz, depending on chance
-	
+		if (rollDice(base)) {
+			cout<<"You suddenly remember that you have a quiz to attend!\n";
+			numOfQuiz++;
+			int m = randomMark(p);
+			add_mark(marks, m, marks_size, numOfQuiz);
+			cout<<"Your score for the quiz is "<<m<<endl;
+		}
 
 		//deduct 25 hunger points after every day
-		if (turn %3 == 0) {
-			p.hunger-=25;
-		}
+		p.hunger-=25;
 		
 		//check player stats
 		checkStats(p, endGame);
 		
-		turns++;
+		//end the game and show the player his/her gpa
+		if (days == 12) {
+			printEndScreen(p, days);
+			break;
+		}
+		days++;
+		
 	}
 
-	//free up memory after the program is ended
+	//free up memory after the program has ended
 	delete[] marks;
 
 	return 0;
