@@ -89,7 +89,10 @@ void viewInventory() {
 			
 
 int main() {
-
+	
+	//stores the difficulty, 0 for ez, 1 for normal
+	int opt=1;
+	
 	bool endGame = false;
 
 	//keep track of the size of dynamic array
