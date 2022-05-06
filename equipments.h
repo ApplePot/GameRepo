@@ -1,4 +1,7 @@
+#ifndef EQUIPMENTS_H
+#define EQUIPMENTS_H
 #include <string>
+using namespace std;
 
 //add 6 equipments for the player to obtain
 
@@ -22,3 +25,5 @@ Equipment equiplist[6] = {
 	{ 5, -20, -25, 95, "Ghost pepper potato chips", "Eating this is torturous, but it is filling"},
 	{ 6, 90, -45, 5, "Gigantic lettuce", "Eating a gigantic portion of vegetables is healthy"}
 };
+
+#endif
