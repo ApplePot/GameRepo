@@ -110,7 +110,7 @@ void q1(int opt, Player &p) {
         if (ans == "Nitrogen") {
             std::cout<<"You’ve won against this crazy man, but at what cost?\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             return;     
         }
         //wrong answer
@@ -119,10 +119,10 @@ void q1(int opt, Player &p) {
             if (opt == 0) {
                 std::cout<<"The answer seems to be wrong. Please try again.\n";
                 std::cin>>ans;
-                if (ans == 'Nitrogen') {
+                if (ans == "Nitrogen") {
                     std::cout<<"You’ve finally won against this crazy man, but at what cost?\n";
                     system("pause");
-                    p.add_item();
+                    add_item(p);
                     p.sanity-=10;
                     std::cout<<"You have lost 10 sanity"<<endl;
                     return;
@@ -134,10 +134,9 @@ void q1(int opt, Player &p) {
                 system("pause");
                 return;
             }
-                    
-            
+    }               
     //declines      
-    else {
+    else{
         std::cout<<"You’ve won against this crazy man, but at what cost?\nHe fiercely grabs you and does not let you leave. You got a scratch.\n";
         p.health-=20;
         std::cout<<"You have lost 20 sanity"<<endl;
@@ -160,7 +159,7 @@ void q2(int opt, Player &p) {
         if (ans == 17) {
             std::cout<<"A trustable friend is always a good friend. Not only does he pay you back as promised, but he also even asks you out for a free meal!\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             p.hunger+=50;
             std::cout<<"You have gained 50 hunger"<<endl;
             return;     
@@ -174,7 +173,7 @@ void q2(int opt, Player &p) {
                 if (ans == 17) {
                     std::cout<<"A trustable friend is always a good friend. Not only does he pay you back as promised, but he also even asks you out for a free meal!\n";
                     system("pause");
-                    p.add_item();
+                    add_item(p);
                     p.hunger+=50;
                     std::cout<<"You have gained 50 hunger"<<endl;
                     return;
@@ -213,7 +212,7 @@ void q3(int opt, Player &p) {
         if (ans == "Nachos") {
             std::cout<<"Your mom understands that you need to build bonding with your new friends, and allows you to party with them, your family could always eat together on the weekends!\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             p.sanity+=10;
             std::cout<<"You have gained 10 sanity"<<endl;
             return;     
@@ -227,7 +226,7 @@ void q3(int opt, Player &p) {
                 if (ans == "Nachos") {
                     std::cout<<"Your mom understands that you need to build bonding with your new friends, and allows you to party with them, your family could always eat together on the weekends!\n";
                 system("pause");
-                p.add_item();
+                add_item(p);
                 p.sanity+=10;
                 std::cout<<"You have gained 10 sanity"<<endl;
                 return;
@@ -267,7 +266,7 @@ void q4(int opt, Player &p) {
         if (ans == "The_Philippines") {
             std::cout<<"Turns out this shy man you’re talking to is a genius at geography.\nNot only you’ve gotten a cool friend, your final project turns out to be much easier to finish!\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             p.sanity+=10;
             std::cout<<"You have gained 10 sanity"<<endl;
             return;     
@@ -281,7 +280,7 @@ void q4(int opt, Player &p) {
                 if (ans == "The_Philippines") {
                 std::cout<<"Turns out this shy man you’re talking to is a genius at geography.\nNot only you’ve gotten a cool friend, your final project turns out to be much easier to finish!\n";
                 system("pause");
-                p.add_item();
+                add_item(p);
                 p.sanity+=10;
                 std::cout<<"You have gained 10 sanity"<<endl;
                 return;
@@ -319,7 +318,7 @@ void q5(int opt, Player &p) {
         if (ans == "2859-2111") {
             std::cout<<"You proved to be a very smart and decisive person, but the temptation to free gifts is your downfall.\nYou tried out the coffee at night and have a sick stomach…\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             p.health-=50;
             p.sanity-=10;
             p.hunger-=20;
@@ -335,7 +334,7 @@ void q5(int opt, Player &p) {
                 if (ans == "2859-2111") {
                 std::cout<<"The student holding the stall realizes that you’re a very uncool person, but he can’t do anything about it…\n";
                 system("pause");
-                p.add_item();
+                add_item(p);
                 return;
                 
             }
@@ -369,7 +368,7 @@ void q6(int opt, Player &p) {
         if (ans == "Praying_mantis" {
             std::cout<<"The urge to attend a live lesson is always appreciated, but your body doesn’t.\nYou can always check back the content if you’re not lazy, dummy…\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             p.health-=50;
             p.sanity-=20;
             p.hunger-=20;
@@ -385,7 +384,7 @@ void q6(int opt, Player &p) {
                 if (ans == "Praying_mantis") {
                 std::cout<<"The urge to attend a live lesson is always appreciated, but your body doesn’t.\nYou can always check back the content if you’re not lazy, dummy…\n";
                 system("pause");
-                p.add_item();
+                add_item(p);
                 p.health-=50;
                 p.sanity-=20;
                 p.hunger-=20;
@@ -422,7 +421,7 @@ void q7(int opt, Player &p) {
     if (ans == "The_Mona_Lisa") {
         std::cout<<"You are a work of wonder and you nailed your presentation work in half a day, even yourself haven’t seen such a hardworking side of you…\n";
         system("pause");
-        p.add_item();
+        add_item(p);
         p.health+=20;
         p.sanity-=10;
         p.hunger-=20;
@@ -437,7 +436,7 @@ void q7(int opt, Player &p) {
             std::cin>>ans;
             if (ans == "The_Mona_Lisa") {
             std::cout<<"You are a work of wonder and you nailed your presentation work in half a day, even yourself haven’t seen such a hardworking side of you…\n";
-            p.add_item();
+            add_item(p);
             p.health+=20;
             p.sanity-=10;
             p.hunger-=20;
@@ -467,7 +466,7 @@ void q8(int opt, Player &p) {
     if (ans == "Gangnam_Styles") {
         std::cout<<"You are a living genius and aced the test with a very great score despite the unfortunate event.\n";
         system("pause");
-        p.add_item();
+        add_item(p);
         p.sanity-=20;
         p.hunger-=20;
         std::cout<<"You have lost 20 sanity and 20 hunger"<<endl;
@@ -481,7 +480,7 @@ void q8(int opt, Player &p) {
             std::cin>>ans;
             if (ans == "Gangnam_Styles") {
             std::cout<<"You are a work of wonder and you nailed your presentation work in half a day, even yourself haven’t seen such a hardworking side of you…\n";
-            p.add_item();
+            add_item(p);
             p.sanity-=20;
             p.hunger-=20;
             std::cout<<"You have lost 20 sanity and 20 hunger"<<endl;
@@ -507,7 +506,7 @@ void q9(int opt, Player &p) {
     if (ans == "London") {
         std::cout<<"Your athlete instinct leads you to victory. You speed through the crowd and manage to get in the class on time.\nHaving sudden sprints does not feel right, but that’s what makes you healthy.\n";
         system("pause");
-        p.add_item();
+        add_item(p);
         p.health+=20;
         p.sanity-=10;
         std::cout<<"You have gained 20 health, and lost 10 sanity"<<endl;
@@ -521,7 +520,7 @@ void q9(int opt, Player &p) {
             std::cin>>ans;
             if (ans =="London") {
             std::cout<<"Your athlete instinct leads you to victory. You speed through the crowd and manage to get in the class on time.\nHaving sudden sprints does not feel right, but that’s what makes you healthy.\n";
-            p.add_item();
+            add_item(p);
             p.health+=20;
             p.sanity-=10;
             std::cout<<"You have gained 20 health, and lost 10 sanity"<<endl;
@@ -548,7 +547,7 @@ void q10(int opt, Player &p) {
     if (ans =="Smartwater" ) {
         std::cout<<"You feel like it’s the right thing to finish your project ASAP regardless of the due date.\nYour friend forces you to join him while you think that you still have a choice.\nIn the library, you are mentally not prepared for the work and fall asleep.\nYou complain that it would have been your bed that you’re taking a nap on, plus a tasty cup of chocolate.\n";
         system("pause");
-        p.add_item();
+        add_item(p);
         p.health+=10;
         p.sanity-=30;
         p.hunger-=10;
@@ -564,7 +563,7 @@ void q10(int opt, Player &p) {
             if (ans == "Smartwater") {
             std::cout<<"You feel like it’s the right thing to finish your project ASAP regardless of the due date.\nYour friend forces you to join him while you think that you still have a choice.\nIn the library, you are mentally not prepared for the work and fall asleep.\nYou complain that it would have been your bed that you’re taking a nap on, plus a tasty cup of chocolate.\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             p.health+=10;
             p.sanity-=30;
             p.hunger-=10;
@@ -594,7 +593,7 @@ void q11(int opt, Player &p) {
     if (ans == "Bach") {
         std::cout<<"listening to classical music when sleeping is really your jam. You woke up the next day full of energy.\n";
         system("pause");
-        p.add_item();
+        add_item(p);
         p.health+=100;
         p.sanity+=50;
         std::cout<<"You have gained 100 health and 50 sanity"<<endl;
@@ -609,7 +608,7 @@ void q11(int opt, Player &p) {
             if (ans =="Bach" ) {
             std::cout<<"listening to classical music when sleeping is really your jam. You woke up the next day full of energy.\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             p.health+=100;
             p.sanity+=50;
             std::cout<<"You have gained 100 health and 50 sanity"<<endl;
@@ -636,7 +635,7 @@ void q12(int opt, Player &p) {
     if (action=='y') {
         std::cout<<"Good thing you chose to rest yesterday. You’re happy that your stomach feels fine now, and you could still finish most of the questions in the test.\n";
         system("pause");
-        p.add_item();
+        add_item(p);
         p.sanity+=10;
         p.hunger-=50;
         std::cout<<"You have gained 10 sanity, and lost 50 hunger"<<endl;
@@ -664,7 +663,7 @@ void q13(int opt, Player &p) {
     if (ans =="Insulin" ) {
         std::cout<<"You are so talented and run through the presentation smoothly, this presentation has to be an A.\n";
         system("pause");
-        p.add_item();
+        add_item(p);
         p.health+=100;
         p.sanity+=20;
         std::cout<<"You have gained 100 health and 20 sanity"<<endl;
@@ -679,7 +678,7 @@ void q13(int opt, Player &p) {
             if (ans =="Insulin" ) {
             std::cout<<"You are so talented and run through the presentation smoothly, this presentation has to be an A.\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             p.health+=100;
             p.sanity+=20;
             std::cout<<"You have gained 100 health and 20 sanity"<<endl;
@@ -708,7 +707,7 @@ void q14(int opt, Player &p) {
     if (ans =="png" ) {
         std::cout<<"Nothing could stop you now. You’re on a rampage and still going strong.\n";
         system("pause");
-        p.add_item();
+        add_item(p);
         p.health+=75;
         p.sanity+=75;
         std::cout<<"You have gained 75 health and 75 sanity"<<endl;
@@ -723,7 +722,7 @@ void q14(int opt, Player &p) {
             if (ans == "png") {
             std::cout<<"Nothing could stop you now. You’re on a rampage and still going strong.\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             p.health+=75;
             p.sanity+=75;
             std::cout<<"You have gained 75 health and 75 sanity"<<endl;
@@ -750,7 +749,7 @@ void q15(int opt, Player &p) {
     if (ans =="With_electromagnetic_waves" ) {
         std::cout<<"You picked up the hint so well you created a killer stand point for your team. The opposing left team is left shocked but with respect.\n";
         system("pause");
-        p.add_item();
+        add_item(p);
         p.health+=100;
         p.sanity+=50;
         std::cout<<"You have gained 100 health and 50 sanity"<<endl;
@@ -765,7 +764,7 @@ void q15(int opt, Player &p) {
             if (ans =="With_electromagnetic_waves" ) {
             std::cout<<"You picked up the hint so well you created a killer stand point for your team. The opposing left team is left shocked but with respect.\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             p.health+=100;
             p.sanity+=50;
             std::cout<<"You have gained 100 health and 50 sanity"<<endl;
@@ -794,7 +793,7 @@ void q16(int opt, Player &p) {
     if (ans =="Dodge_Charger" ) {
         std::cout<<"you realized that the assignments are quite easy when you reread the questions again. You believed in yourself that you would finish them in no time.\n";
         system("pause");
-        p.add_item();
+        add_item(p);
         p.health+=50;
         p.sanity+=50;
         p.hunger+=50;
@@ -810,7 +809,7 @@ void q16(int opt, Player &p) {
             if (ans =="Dodge_Charger" ) {
             std::cout<<"you realized that the assignments are quite easy when you reread the questions again. You believed in yourself that you would finish them in no time.\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             p.health+=50;
             p.sanity+=50;
             p.hunger+=50;
@@ -840,7 +839,7 @@ void q17(int opt, Player &p) {
     if (ans =="Orion's_Belt") {
         std::cout<<"Practice makes perfect. You do so well in class the professor is very impressed.\nNow you’re a happy person too.\n";
         system("pause");
-        p.add_item();
+        add_item(p);
         p.health+=100;
         p.hunger+=50;
         std::cout<<"You have gained 100 health, and 50 hunger"<<endl;
@@ -855,7 +854,7 @@ void q17(int opt, Player &p) {
             if (ans =="Orion's_Belt" ) {
             std::cout<<"Practice makes perfect. You do so well in class the professor is very impressed.\nNow you’re a happy person too.\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             p.health+=100;
             p.hunger+=50;
             std::cout<<"You have gained 100 health, and 50 hunger"<<endl;
@@ -884,7 +883,7 @@ void q18(int opt, Player &p) {
     if (ans =="Python" ) {
         std::cout<<"you are a very organized person, and so are your programs.\nYour final run turns out to be fine like wine.\n";
         system("pause");
-        p.add_item();
+        add_item(p);
         p.sanity+=50;
         p.hunger+=50;
         std::cout<<"You have gained 50 sanity and 50 hunger"<<endl;
@@ -899,7 +898,7 @@ void q18(int opt, Player &p) {
             if (ans =="Python" ) {
             std::cout<<"you are a very organized person, and so are your programs.\nYour final run turns out to be fine like wine.\n";
             system("pause");
-            p.add_item();
+            add_item(p);
             p.sanity+=50;
             p.hunger+=50;
             std::cout<<"You have gained 50 sanity and 50 hunger"<<endl;
@@ -917,3 +916,4 @@ void q18(int opt, Player &p) {
         }
     }   
 }
+
