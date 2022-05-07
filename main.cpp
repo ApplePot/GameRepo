@@ -18,13 +18,13 @@ using namespace std;
 //declare all functions
 
 bool rollDice(int base);
-int randomMark(Player p);
+double randomMark(Player p);
 void checkStats(Player &p, bool& endGame);
-double calGPA(Player p, int* marks, int iter);
+double calGPA(Player p, double* marks, int iter);
 void printTitleScreen(int& opt, int& base);
 void loadFromFile(Player& p);
 void saveToFile(Player p, char opt);
-void printEndScreen(Player p, int days, int numOfQuiz, int* marks);
+void printEndScreen(Player p, int days, int numOfQuiz, double* marks);
 void presentEvent(int opt, Player& p, int days, int &i);
 int getNumItem(Player p);
 
@@ -47,12 +47,12 @@ bool rollDice(int base) {
 }
 
 //returns the mark of random quizes based on player stats
-int randomMark(Player p) {
+double randomMark(Player p) {
 	int base_mark;
 	srand(time(NULL));
 
 	//default player has 250 in all aspects
-	int performance = p.health + p.sanity + p.hunger;
+	double performance = p.health + p.sanity + p.hunger;
 	if (performance >= 850) {
 		base_mark = 65;
 	}
@@ -62,7 +62,8 @@ int randomMark(Player p) {
 	else {
 		base_mark = 50;
 	}
-	return (rand() % (100 - base_mark)) + base_mark;
+	int randomPart = rand()%(100-base_mark);
+	return randomPart + base_mark;
 }
 
 //check player stats and take actions
@@ -98,16 +99,23 @@ void checkStats(Player &p, bool& endGame) {
 }
 
 //calculate the final GPA
-double calGPA(Player p, int* marks, int iter) {
+double calGPA(Player p, double* marks, int iter) {
 
 	double health_part = p.health / 400;
 	double sanity_part = p.sanity / 400;
 	double hunger_part = p.hunger / 400;
 	double sum_mark = 0;
-	for (int i = 0; i <= iter; i++) {
-		sum_mark += marks[i];
+	double quiz_marks;
+	if (iter == 0) {
+		quiz_marks = 0.5;
 	}
-	double quiz_marks = sum_mark / (iter * 100);
+	else {
+		for (int i = 0; i <= iter; i++) {
+			sum_mark += marks[i];
+		}
+		quiz_marks = sum_mark / (iter * 100);
+	}
+
 	double total = hunger_part + sanity_part + hunger_part + quiz_marks;
 	if (total >= 4.0) {
 		return 4.0;
@@ -237,13 +245,14 @@ void saveToFile(Player p, char opt) {
 }
 
 //presents the end screen
-void printEndScreen(Player p, int days, int numOfQuiz, int* marks) {
+void printEndScreen(Player p, int days, int numOfQuiz, double* marks) {
 
 	char opt = '0';
 	cout << "\t\tGame Over!" << endl;
 	//end because the player finished the game
-	if (days == 10) {
+	if (days == 6) {
 		cout << "\tYour final GPA is: " << calGPA(p, marks, numOfQuiz) << endl;
+		sleep(2);
 		//reset data in player.txt
 		saveToFile(p, opt);
 		system("clear");
@@ -260,17 +269,17 @@ void printEndScreen(Player p, int days, int numOfQuiz, int* marks) {
 //a dynamic array that stores the marks of random quizes
 //since quizes are random events, the size of the array that stores marks can not be fixed
 //start with 5, expand the array if necessary
-int* marks = new int[5];
+double* marks = new double[5];
 
 //size is the current size of the array
 //iter is the index of the last element in marks dynamic array
-void add_mark(int* &marks, int mark, int &size, int &iter) {
+void add_mark(double* &marks, double mark, int &size, int &iter) {
 
 	//extend the dynamic array if the current array do not allow addition of mark
 	if (size + 1 > 5) {
 
 		//initialize a new, temporary dynamic array whose size is doubled
-		int* temp = new int[size * 2];
+		double* temp = new double[size * 2];
 
 		//copy old array content into new temp array
 		for (int i = 0; i < iter + 1; i++) {
@@ -488,6 +497,11 @@ int main() {
 	//the game lasts 10 days, 30 turns
 	while (!endGame) {
 
+		//check if the semester has ended
+		if (days == 6) {
+			break;
+		}
+
 		//allows the player to view their inventory items
 		if (getNumItem(p) != 0) {
 			printStatus(p, days);
@@ -564,14 +578,14 @@ int main() {
 			cout<<"Your score for the quiz is "<<m<<endl;
 		}
 
-		//deduct 25 hunger points after every day
-		p.hunger-=25;
-
-		//end the game and show the player his/her gpa
-		if (days == 12) {
-			printEndScreen(p, days, numOfQuiz, marks);
+		//check player stats
+		checkStats(p, endGame);
+		if (endGame) {
 			break;
 		}
+
+		//deduct 25 hunger points after every day
+		p.hunger-=25;
 
 		days++;
 
@@ -583,11 +597,6 @@ int main() {
 		sleep(2);
 		system("clear");
 
-		//check player stats
-		checkStats(p, endGame);
-		if (endGame) {
-			break;
-		}
 
 	}
 	printEndScreen(p, days, numOfQuiz, marks);
