@@ -8,19 +8,19 @@
   
 2. Game description/rule
 
- This text-based game is a student simulator at HKU in an alternate universe. The goal of the student is to obtain the highest GPA by the end of the game. The student would have attributes, like health pool, reputation, hunger, socialing score, focus, pressure, and sanity that the player have to actively maintain, which are affected by both the choices that the player makes and random events. The GPA is calculated based on the student's attribute. Student stats can be modified by equipping various items, which are obtainable through game progession. 
+This text-based game is a student simulator at HKU in an alternate universe. The goal of the student is to obtain the highest GPA by the end of the game. The student have stats - health, sanity, and hunger - which are affected by both the choices that the player makes and random events. At the end of each story, there is a chance of a quiz. If the student's stats are high, the mark of the quiz will be higher, vice versa. The GPA calculation is also based on the student stats. Student stats can be modified by obtaining items through game progession, which lasts for 6 turns (6 in-game days). 
 
- Failling to maintain any particular attributes will result in a decrease in others as well as triggering events, like emotional mangle, a unhealthy, social-lacking life or at the worst case, self-harming actions. These downfalls may cause a potential school withdrawal, leading to a end/loss in the game. 
-
- In the contrary, successfully maintaining attributes at certain levels for a period of time will increase some of the student status, increasing the odds of having a higher GPA at the end of the game. Some choices are only accessible if the student's attributes are of a particular level.
+Failling to maintain any particular attributes will result in a decrease in others as well. If the stats falls below certain level, the game will end.
 
 3. Game features 
 
-Random events, (satisfying 1. Generation of random game sets or events)
-  Throughout the game, random events can occur. For example, if the player decides to study in the library, the student may be able to obtain an item that will modify his/her attribute. And the player would have to min-max the student's attributes in order to obtain a better result during game progession. Another example would be meeting uninspiring students on a random school day, which would cause a downgrade in some attributes e.g.(focus and sanity), and only specific items could prevent/reduce the harm of this random event.
+Random events, (satisfying 1. Generation of random game sets or events, 3. dynamic memory management)
+Throughout the game, random events can occur. For example,the player may have random encounters. And the player can choose to either ignore it or deal with it which would result in different changes to player stats. Also, since the occurance of quizes is rng-based, the array which stores the marks of the quizes can not be pre-determined and its size would have to be dynamically allocated.
  
-Inventory system, (satisfying 2. Data structures for storing game status and 3. Dynamic memory management)
-  Although the player can obtain and store multiple items in the inventory, there will only be three slots in which the player can equip items. Some items are consumables that will only be effective for a period of time, after which it will be removed from the inventory. 
+Inventory system, (satisfying 2. Data structures for storing game status)
+Although the player can obtain up to 5 items, there can only be at most 3 types of item. Both item ids and the number of unique items are stored inside player.txt. The game automatically adds a suitable item to the player's inventory when certain events are triggered. The items have attributes that apply modifications to the player's stats. Moreover, the items are stored as custome data type "Equipment" which has two string variables that stores item name and description. At the beginning of each turn, if the player has at least 1 item, the game will give the player an option to view details of his items.
  
-Load and Save, (satisfying 3. Dynamic memory management, 4. File input/output and 5. Program codes in multiple files)
-  The game file will take an input player.txt file which stores the status and items that the player has. And as the game progresses, the .txt file will be modified. Finally, when the player either exits and saves the program or the student is eliminated, the program will end; the latter case will result in the game 'resetting' and attribute.txt will be restored to its initial version.
+Load and Save, (satisfying 4. File input/output and 5. Program codes in multiple files)
+The game file will take an input player.txt file which stores the status and items that the player has. Upon each manual and auto save (which occurs after each turn), the .txt file will be modified. Finally, when the player either exits and saves the program or the student is eliminated, the program will end; the latter case will result in the game 'resetting' and attribute.txt will be restored to its initial version.
+
+
