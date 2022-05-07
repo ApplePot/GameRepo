@@ -19,29 +19,25 @@ using namespace std;
 
 bool rollDice(int base);
 int randomMark(Player p);
-void checkStats(Player p, bool& endGame);
+void checkStats(Player &p, bool& endGame);
 double calGPA(Player p, int* marks, int iter);
-void printTitleScreen(int& opt, int& base, int& base_item);
+void printTitleScreen(int& opt, int& base);
 void loadFromFile(Player& p);
 void saveToFile(Player p, char opt);
 void printEndScreen(Player p, int days, int numOfQuiz, int* marks);
-void presentEvent(int opt, Player& p, int days);
+void presentEvent(int opt, Player& p, int days, int &i);
+int getNumItem(Player p);
 
 //==================================================================================
-//declare linked list for storing previous random number
-struct Node {
-	int value;
-	Node* prev;
-};
+int randomOutput[2] = { 0, 0 };
 
-Node* tail = NULL;
 
 //define functions
 
 //rng function
 //returns true with a probability of 1/base
 bool rollDice(int base) {
-	srand(time(0));
+	srand(time(NULL));
 	int num;
 	num = rand() % base;
 	if (num == 0) {
@@ -53,7 +49,7 @@ bool rollDice(int base) {
 //returns the mark of random quizes based on player stats
 int randomMark(Player p) {
 	int base_mark;
-	srand(time(0));
+	srand(time(NULL));
 
 	//default player has 250 in all aspects
 	int performance = p.health + p.sanity + p.hunger;
@@ -70,7 +66,7 @@ int randomMark(Player p) {
 }
 
 //check player stats and take actions
-void checkStats(Player p, bool& endGame) {
+void checkStats(Player &p, bool& endGame) {
 
 	if (p.health <= 0) {
 		endGame = true;
@@ -78,21 +74,25 @@ void checkStats(Player p, bool& endGame) {
 	}
 	else if (p.sanity < 50) {
 		if (p.sanity <= 0) {
-			cout << "You have gone insane" << endl;
+			cout << "\tYou have gone insane" << endl;
 			endGame = true;
 			return;
 		}
 		p.health -= 20;
+		cout << "You have lost 20 health as you are on the brink of mental meltdown\n";
 	}
 	else if (p.hunger < 50) {
 		if (p.hunger <= 0) {
-			cout << "You have fainted..." << endl;
+			cout << "\tYou have fainted..." << endl;
 			endGame = true;
 			return;
 		}
 		p.health -= 25;
 		p.sanity -= 25;
+		cout << "You have lost 25 health and 25 sanity as you are now starving" << endl;
 	}
+	sleep(2);
+	system("clear");
 	return;
 
 }
@@ -118,27 +118,36 @@ double calGPA(Player p, int* marks, int iter) {
 
 //prints the title screen
 //lets the player choose difficulty
-void printTitleScreen(int& opt, int& base, int& base_item) {
-	
+void printTitleScreen(int& opt, int& base) {
+
 	cout << "====================================\n\n"; //there are 36 '='s
 	cout << "\tStudent simulator 2022\t\t" << endl;
+	cout << endl;
 	cout << "====================================\n" << endl;
+
+	char input;
 	//this prompts the player to give an input to start the game
-	system("pause");
+	cout<<"Enter any character to start the game (e to exit):\n";
+	cin>>input;
+
+	if (input == 'e') {
+		system("clear");
+		cout<<"Ending program"<<endl;
+		cout<<"No progress saved"<<endl;
+		sleep(2);
+		exit(1);
+	}
 	//this clears the console output
-	system("cls");
+	system("clear");
 	cout << "How hard do you like your game? (Enter 0 for ez, 1 for normal)\n";
 
 	cin >> opt;
 	if (opt == 0) {
 
-		//increase occurance of random item drops, decrease base_item, default is 20
-		base_item = 10;
-
 		//decrease chance of random events, increase base
-		base = 25;
+		base = 10;
 	}
-	system("cls");
+	system("clear");
 	return;
 
 }
@@ -154,7 +163,7 @@ void loadFromFile(Player& p) {
 		exit(1);
 	}
 	else {
-		
+
 		//input health
 		ifile >> p.health>>p.sanity>>p.hunger>>p.numOfUniqueItem;
 
@@ -162,7 +171,8 @@ void loadFromFile(Player& p) {
 		for (int i = 0; i < 5; i++) {
 			ifile >> p.slots[i];
 		}
-		
+		ifile >> p.applied;
+
 	}
 	ifile.close();
 
@@ -178,7 +188,7 @@ void saveToFile(Player p, char opt) {
 
 	//save current stats to player.txt
 	if (opt == 'y') {
-
+		system("clear");
 		ofile << p.health << endl;
 		ofile << p.sanity << endl;
 		ofile << p.hunger << endl;
@@ -191,6 +201,9 @@ void saveToFile(Player p, char opt) {
 				ofile << p.slots[i] << " ";
 			}
 		}
+		ofile << endl;
+		ofile << true << endl;
+		cout << "Saved progress" << endl;
 
 	}
 
@@ -211,6 +224,11 @@ void saveToFile(Player p, char opt) {
 				ofile << 0 << " ";
 			}
 		}
+		system("clear");
+		cout << "Progress reset\n";
+		sleep(1);
+		cout<<"Terminating game\n";
+		sleep(1);
 
 	}
 
@@ -228,7 +246,7 @@ void printEndScreen(Player p, int days, int numOfQuiz, int* marks) {
 		cout << "\tYour final GPA is: " << calGPA(p, marks, numOfQuiz) << endl;
 		//reset data in player.txt
 		saveToFile(p, opt);
-		system("cls");
+		system("clear");
 		exit(1);
 	}
 	//end because of negative or zero stats
@@ -284,7 +302,7 @@ void viewInventory(Player p) {
 	}
 	if (counter > 0) {
 		cout<<"You currently have "<<counter<<" item(s)."<<endl;
-		
+
 		//print out all non-empty slots
 		int i=0;
 		while (p.slots[i] != 0) {
@@ -306,135 +324,145 @@ void viewInventory(Player p) {
 	}
 	else {
 		cout << "Your inventory is empty.\n";
+		sleep(2);
 	}
 }
 
 //prints the status of the player
-void printStatus(Player p) {
+void printStatus(Player p, int days) {
 
-	cout << "Health: " << p.health << " Sanity: " << p.sanity << " Hunger: " << p.hunger << endl;
-
-}
-
-void applyStatus(Player &p) {
-
-	for (int id : p.slots) {
-		if (id != 0) {
-			p.hunger += equiplist[id-1].hunger_mod;
-			p.health += equiplist[id-1].health_mod;
-			p.sanity += equiplist[id-1].sanity_mod;
-		}
-	}
+	cout << "Health: " << p.health << " Sanity: " << p.sanity << " Hunger: " << p.hunger << " Day: "<<days<<endl;
 
 }
 
 //initialize difficulty and load player stats
-void initGame(Player &p, int &opt, int &base, int &base_item) {
+void initGame(Player &p, int &opt, int &base) {
 
 	loadFromFile(p);
 	applyStatus(p);
+	printTitleScreen(opt, base);
 }
 
 //presents question to the player randomly
-void presentEvent(int opt, Player &p, int days) {
+void presentEvent(int opt, Player &p, int days, int &i) {
 
-	//create a new node n
-	//the value of n must no equal that of the previous node
-	Node* n = new Node;
+	//stores current output
 	int val = randomInt();
 
-	//building the list to store previous value
-	//the list has at least 1 node
-	if (tail != NULL) {
-		int prevNum = tail->value;
-		while (val == prevNum) {
+	//i=1 means it is the end of a period of the semester (a semester is seperated into 3 parts, sem start, sem mid, and sem end, each having two days)
+	if (i == 1) {
+		//reset the day to 0
+		i =0;
+		//reset the array after two days
+		for (int num : randomOutput) {
+			num = 0;
+		}
+		randomOutput[0] = val;
+	}
+	//i=0, the start of the a part of semester
+	else {
+		i += 1;
+		while (val == randomOutput[0]) {
 			val = randomInt();
 		}
+		randomOutput[1] = val;
 	}
-	n->value = val;
-	n->prev = tail;
-	tail = n;
-	
-	
+
 	switch (days) {
-	case 0: case 1:
-		//presents q1 to q6
-		switch (val) {
-		case 1:
-			q1(opt, p);
-			break;
-		case 2:
-			q2(opt, p);
-			break;
-		case 3:
-			q3(opt, p);
-			break;
-		case 4:
-			q4(opt, p);
-			break;
-		case 5:
-			q5(opt, p);
-			break;
-		case 6:
-			q6(opt, p);
-			break;
-		}
+		case 0: case 1:
+			//presents q1 to q6
+			switch (val) {
+				case 1:
+					q1(opt, p);
+					return;
+				case 2:
+					q2(opt, p);
+					return;
+				case 3:
+					q3(opt, p);
+					return;
+				case 4:
+					q4(opt, p);
+					return;
+				case 5:
+					q5(opt, p);
+					return;
+				case 6:
+					q6(opt, p);
+					return;
+			}
 		break;
-	case 2: case 3:
-		//presents q7 to q12
-		switch (val) {
-		case 1:
-			q7(opt, p);
-			break;
-		case 2:
-			q8(opt, p);
-			break;
-		case 3:
-			q9(opt, p);
-			break;
-		case 4:
-			q10(opt, p);
-			break;
-		case 5:
-			q11(opt, p);
-			break;
-		case 6:
-			q12(opt, p);
-			break;
-		}
+		case 2: case 3:
+			//presents q7 to q12
+			switch (val) {
+				case 1:
+					q7(opt, p);
+					return;
+				case 2:
+					q8(opt, p);
+					return;
+				case 3:
+					q9(opt, p);
+					return;
+				case 4:
+					q10(opt, p);
+					return;
+				case 5:
+					q11(opt, p);
+					return;
+				case 6:
+					q12(opt, p);
+					return;
+			}
 		break;
-	case 4: case 5:
-		//presents q13 to q18
-		switch (val) {
-		case 1:
-			q13(opt, p);
-			break;
-		case 2:
-			q14(opt, p);
-			break;
-		case 3:
-			q15(opt, p);
-			break;
-		case 4:
-			q16(opt, p);
-			break;
-		case 5:
-			q17(opt, p);
-			break;
-		case 6:
-			q18(opt, p);
-			break;
-		}
+		case 4: case 5:
+			//presents q13 to q18
+			switch (val) {
+				case 1:
+					q13(opt, p);
+					return;
+				case 2:
+					q14(opt, p);
+					return;
+				case 3:
+					q15(opt, p);
+					return;
+				case 4:
+					q16(opt, p);
+					return;
+				case 5:
+					q17(opt, p);
+					return;
+				case 6:
+					q18(opt, p);
+					return;
+			}
 		break;
 	}
-	
+
+}
+
+int getNumItem(Player p) {
+	int counter = 0;
+	if (p.fullInventory()) {
+		return 5;
+	}
+	else {
+		for (int num : p.slots) {
+			if (num != 0) {
+				counter++;
+			}
+		}
+	}
+	return counter;
 }
 
 int main() {
-	
+
+	int i = 0;
 	//stores the difficulty, 0 for ez, 1 for normal
 	int opt=1;
-	
+
 	bool endGame = false;
 
 	//keep track of the size of dynamic array
@@ -446,18 +474,11 @@ int main() {
 	//the integer variable is the divisor, so a larger value represents a lower chance, vice versa
 	int base = 5;
 
-	//variable chance of item drops
-	//default is 15, 10 in ez mode
-	int base_item = 15;
-	
 	//instantiate a player object
 	Player p;
 
 	//intialize the game
-	initGame(p, opt, base, base_item);
-	
-	//display title screen
-	printTitleScreen(opt, base, base_item);
+	initGame(p, opt, base);
 
 	//stores the number of days
 	int days = 0;
@@ -466,35 +487,74 @@ int main() {
 	//auto save every 3 turns
 	//the game lasts 10 days, 30 turns
 	while (!endGame) {
-		
-		printStatus(p);
+
 		//allows the player to view their inventory items
-		char view;
-		cout<<"Do you want to view your inventory (y/n)?\n";
-		cin>>view;
-		system("cls");
-		if (view == 'y') {
-			printStatus(p);
-			viewInventory(p);
-			system("pause");
-			system("cls");	
+		if (getNumItem(p) != 0) {
+			printStatus(p, days);
+			char view;
+			cout << "Do you want to view your inventory (y/n)?\n";
+			cin >> view;
+
+			if (view == 'y') {
+				system("clear");
+				printStatus(p, days);
+				viewInventory(p);
+			  char cmd;
+				cout<<"Do you wish to continue (y/n)?"<<endl;
+				cin>>cmd;
+				if (cmd != 'y') {
+					system("clear");
+					cout<<"Exiting program"<<endl;
+					cout<<"No progress saved"<<endl;
+					sleep(2);
+					system("clear");
+					exit(1);
+				}
+			}
+			system("clear");
 		}
-		
+
+
 		//allows the player to save their current stats and equipments
 		char save;
 		cout<<"Do you want to save your progress (y/n)?\n";
+		cout << "Your current status: " << endl;
+		printStatus(p, days);
+		cout << "You currently have " << getNumItem(p) << " item(s).\n";
 		cin>>save;
 		if (save == 'y') {
-			printStatus(p);
+			char ans;
 			saveToFile(p, save);
+			system("clear");
+			cout << "Do you wish to continue? (y/n)\n";
+			cin >> ans;
+			if (ans != 'y') {
+				system("clear");
+				exit(1);
+			}
 		}
-		system("cls");
+		else if (save == 'e') {
+			exit(1);
+		}
 
-		printStatus(p);
+		system("clear");
+
+		//check status
+		checkStats(p, endGame);
+		if (endGame) {
+			break;
+		}
+
+		printStatus(p, days);
 		//presents question
-		
+		presentEvent(opt, p, days, i);
 
-		
+		//check status
+		checkStats(p, endGame);
+		if (endGame) {
+			break;
+		}
+
 		//presents quiz, depending on chance
 		if (rollDice(base)) {
 			cout<<"You suddenly remember that you have a quiz to attend!\n";
@@ -516,18 +576,22 @@ int main() {
 		days++;
 
 		saveToFile(p, 'y');
-		system("cls");
-		cout << "Auto saved progress\n";
-		cout << "The next day.." << endl;
-		system("pause");
-		system("cls");
+		system("clear");
+		cout << "\tAuto-saved progress\n";
+		cout << "    You have lost 25 hunger" << endl;
+		cout << "\t The next day.." << endl;
+		sleep(2);
+		system("clear");
 
 		//check player stats
 		checkStats(p, endGame);
-		
-	}
-	system("pause");
+		if (endGame) {
+			break;
+		}
 
+	}
+	printEndScreen(p, days, numOfQuiz, marks);
+	sleep(2);
 	//free up memory after the program has ended
 	delete[] marks;
 	exit(1);
